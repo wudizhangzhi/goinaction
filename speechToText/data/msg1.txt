@@ -1,0 +1,1334 @@
+{
+   "result_index": 66,
+   "results": [
+      {
+         "final": true,
+         "alternatives": [
+            {
+               "transcript": "what do you mean by extra admin support for potentially what happens as we speak for the stream for parents recall since the fees are run out of time but have relatively large class members in and the delivery time 6 to 8:00 PM so managing students are clean and challenging join the time where ",
+               "confidence": 0.62,
+               "timestamps": [
+                  [
+                     "what",
+                     379.84,
+                     379.98
+                  ],
+                  [
+                     "do",
+                     379.98,
+                     380.08
+                  ],
+                  [
+                     "you",
+                     380.08,
+                     380.14
+                  ],
+                  [
+                     "mean",
+                     380.14,
+                     380.35
+                  ],
+                  [
+                     "by",
+                     380.35,
+                     380.5
+                  ],
+                  [
+                     "extra",
+                     380.5,
+                     380.86
+                  ],
+                  [
+                     "admin",
+                     380.86,
+                     381.27
+                  ],
+                  [
+                     "support",
+                     381.27,
+                     381.74
+                  ],
+                  [
+                     "for",
+                     382.01,
+                     382.46
+                  ],
+                  [
+                     "potentially",
+                     382.97,
+                     383.55
+                  ],
+                  [
+                     "what",
+                     383.55,
+                     383.66
+                  ],
+                  [
+                     "happens",
+                     383.66,
+                     384.24
+                  ],
+                  [
+                     "as",
+                     384.67,
+                     384.82
+                  ],
+                  [
+                     "we",
+                     384.82,
+                     384.97
+                  ],
+                  [
+                     "speak",
+                     384.97,
+                     385.35
+                  ],
+                  [
+                     "for",
+                     385.44,
+                     385.79
+                  ],
+                  [
+                     "the",
+                     385.79,
+                     386.06
+                  ],
+                  [
+                     "stream",
+                     386.34,
+                     386.85
+                  ],
+                  [
+                     "for",
+                     386.85,
+                     387.0
+                  ],
+                  [
+                     "parents",
+                     387.0,
+                     387.42
+                  ],
+                  [
+                     "recall",
+                     387.42,
+                     387.96
+                  ],
+                  [
+                     "since",
+                     387.96,
+                     388.29
+                  ],
+                  [
+                     "the",
+                     388.29,
+                     388.42
+                  ],
+                  [
+                     "fees",
+                     388.42,
+                     388.95
+                  ],
+                  [
+                     "are",
+                     389.08,
+                     389.23
+                  ],
+                  [
+                     "run",
+                     389.23,
+                     389.41
+                  ],
+                  [
+                     "out",
+                     389.41,
+                     389.61
+                  ],
+                  [
+                     "of",
+                     389.61,
+                     389.71
+                  ],
+                  [
+                     "time",
+                     389.71,
+                     390.09
+                  ],
+                  [
+                     "but",
+                     390.09,
+                     390.35
+                  ],
+                  [
+                     "%HESITATION",
+                     390.74,
+                     391.14
+                  ],
+                  [
+                     "have",
+                     391.17,
+                     391.52
+                  ],
+                  [
+                     "relatively",
+                     391.52,
+                     392.05
+                  ],
+                  [
+                     "large",
+                     392.05,
+                     392.45
+                  ],
+                  [
+                     "class",
+                     392.45,
+                     392.99
+                  ],
+                  [
+                     "members",
+                     393.02,
+                     393.57
+                  ],
+                  [
+                     "in",
+                     393.6,
+                     393.87
+                  ],
+                  [
+                     "and",
+                     394.35,
+                     394.63
+                  ],
+                  [
+                     "the",
+                     394.66,
+                     394.76
+                  ],
+                  [
+                     "delivery",
+                     394.76,
+                     395.12
+                  ],
+                  [
+                     "time",
+                     395.12,
+                     395.39
+                  ],
+                  [
+                     "six",
+                     395.39,
+                     395.76
+                  ],
+                  [
+                     "to",
+                     395.76,
+                     395.89
+                  ],
+                  [
+                     "eight",
+                     395.89,
+                     396.14
+                  ],
+                  [
+                     "PM",
+                     396.14,
+                     396.55
+                  ],
+                  [
+                     "%HESITATION",
+                     397.1,
+                     397.32
+                  ],
+                  [
+                     "so",
+                     397.32,
+                     397.48
+                  ],
+                  [
+                     "managing",
+                     397.48,
+                     398.02
+                  ],
+                  [
+                     "students",
+                     398.02,
+                     398.6
+                  ],
+                  [
+                     "are",
+                     398.6,
+                     398.74
+                  ],
+                  [
+                     "clean",
+                     398.74,
+                     399.23
+                  ],
+                  [
+                     "and",
+                     399.23,
+                     399.41
+                  ],
+                  [
+                     "challenging",
+                     399.67,
+                     400.33
+                  ],
+                  [
+                     "join",
+                     400.47,
+                     400.74
+                  ],
+                  [
+                     "the",
+                     400.74,
+                     400.86
+                  ],
+                  [
+                     "time",
+                     400.86,
+                     401.19
+                  ],
+                  [
+                     "where",
+                     401.19,
+                     401.58
+                  ]
+               ]
+            }
+         ],
+         "word_alternatives": [
+            {
+               "start_time": 379.84,
+               "end_time": 379.98,
+               "alternatives": [
+                  {
+                     "word": "what",
+                     "confidence": 0.99
+                  }
+               ]
+            },
+            {
+               "start_time": 379.98,
+               "end_time": 380.08,
+               "alternatives": [
+                  {
+                     "word": "do",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 380.08,
+               "end_time": 380.14,
+               "alternatives": [
+                  {
+                     "word": "you",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 380.14,
+               "end_time": 380.35,
+               "alternatives": [
+                  {
+                     "word": "mean",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 380.35,
+               "end_time": 380.5,
+               "alternatives": [
+                  {
+                     "word": "by",
+                     "confidence": 0.97
+                  },
+                  {
+                     "word": "my",
+                     "confidence": 0.03
+                  }
+               ]
+            },
+            {
+               "start_time": 380.5,
+               "end_time": 380.86,
+               "alternatives": [
+                  {
+                     "word": "extra",
+                     "confidence": 0.98
+                  },
+                  {
+                     "word": "xtra",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 380.86,
+               "end_time": 381.27,
+               "alternatives": [
+                  {
+                     "word": "admin",
+                     "confidence": 0.93
+                  },
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.04
+                  }
+               ]
+            },
+            {
+               "start_time": 381.27,
+               "end_time": 381.74,
+               "alternatives": [
+                  {
+                     "word": "support",
+                     "confidence": 0.94
+                  },
+                  {
+                     "word": "admissible",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "hold",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "before",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "hope",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 382.01,
+               "end_time": 382.46,
+               "alternatives": [
+                  {
+                     "word": "for",
+                     "confidence": 0.53
+                  },
+                  {
+                     "word": "%HESITATION",
+                     "confidence": 0.3
+                  },
+                  {
+                     "word": "or",
+                     "confidence": 0.02
+                  }
+               ]
+            },
+            {
+               "start_time": 382.97,
+               "end_time": 383.55,
+               "alternatives": [
+                  {
+                     "word": "potentially",
+                     "confidence": 0.63
+                  },
+                  {
+                     "word": "potential",
+                     "confidence": 0.29
+                  },
+                  {
+                     "word": "international",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "additional",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 383.55,
+               "end_time": 383.66,
+               "alternatives": [
+                  {
+                     "word": "what",
+                     "confidence": 0.48
+                  },
+                  {
+                     "word": "all",
+                     "confidence": 0.12
+                  },
+                  {
+                     "word": "%HESITATION",
+                     "confidence": 0.02
+                  }
+               ]
+            },
+            {
+               "start_time": 383.66,
+               "end_time": 384.24,
+               "alternatives": [
+                  {
+                     "word": "happens",
+                     "confidence": 0.93
+                  }
+               ]
+            },
+            {
+               "start_time": 384.24,
+               "end_time": 384.67,
+               "alternatives": [
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.82
+                  },
+                  {
+                     "word": "I've",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "I'd",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 384.67,
+               "end_time": 384.82,
+               "alternatives": [
+                  {
+                     "word": "as",
+                     "confidence": 0.92
+                  },
+                  {
+                     "word": "ever",
+                     "confidence": 0.04
+                  },
+                  {
+                     "word": "like",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "either",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 384.82,
+               "end_time": 384.97,
+               "alternatives": [
+                  {
+                     "word": "we",
+                     "confidence": 0.93
+                  },
+                  {
+                     "word": "to",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 384.97,
+               "end_time": 385.35,
+               "alternatives": [
+                  {
+                     "word": "speak",
+                     "confidence": 0.99
+                  }
+               ]
+            },
+            {
+               "start_time": 385.44,
+               "end_time": 385.79,
+               "alternatives": [
+                  {
+                     "word": "for",
+                     "confidence": 0.98
+                  },
+                  {
+                     "word": "four",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "FOR",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 385.79,
+               "end_time": 386.06,
+               "alternatives": [
+                  {
+                     "word": "the",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 386.34,
+               "end_time": 386.85,
+               "alternatives": [
+                  {
+                     "word": "stream",
+                     "confidence": 0.29
+                  },
+                  {
+                     "word": "street",
+                     "confidence": 0.19
+                  },
+                  {
+                     "word": "St",
+                     "confidence": 0.17
+                  },
+                  {
+                     "word": "Sri",
+                     "confidence": 0.11
+                  },
+                  {
+                     "word": "three",
+                     "confidence": 0.08
+                  },
+                  {
+                     "word": "screen",
+                     "confidence": 0.07
+                  },
+                  {
+                     "word": "streak",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "streets",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "extreme",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 386.85,
+               "end_time": 387.0,
+               "alternatives": [
+                  {
+                     "word": "for",
+                     "confidence": 0.94
+                  },
+                  {
+                     "word": "per",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 387.0,
+               "end_time": 387.42,
+               "alternatives": [
+                  {
+                     "word": "parents",
+                     "confidence": 0.59
+                  },
+                  {
+                     "word": "Paris",
+                     "confidence": 0.09
+                  },
+                  {
+                     "word": "coverage",
+                     "confidence": 0.08
+                  },
+                  {
+                     "word": "parish",
+                     "confidence": 0.06
+                  },
+                  {
+                     "word": "parrots",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "precarious",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 387.42,
+               "end_time": 387.96,
+               "alternatives": [
+                  {
+                     "word": "recall",
+                     "confidence": 0.6
+                  },
+                  {
+                     "word": "recalls",
+                     "confidence": 0.08
+                  },
+                  {
+                     "word": "recourse",
+                     "confidence": 0.03
+                  }
+               ]
+            },
+            {
+               "start_time": 387.96,
+               "end_time": 388.29,
+               "alternatives": [
+                  {
+                     "word": "since",
+                     "confidence": 0.46
+                  },
+                  {
+                     "word": "is",
+                     "confidence": 0.21
+                  },
+                  {
+                     "word": "sees",
+                     "confidence": 0.1
+                  },
+                  {
+                     "word": "system",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "six",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "service",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "cease",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 388.29,
+               "end_time": 388.42,
+               "alternatives": [
+                  {
+                     "word": "the",
+                     "confidence": 0.91
+                  }
+               ]
+            },
+            {
+               "start_time": 388.42,
+               "end_time": 388.95,
+               "alternatives": [
+                  {
+                     "word": "fees",
+                     "confidence": 0.52
+                  },
+                  {
+                     "word": "piece",
+                     "confidence": 0.25
+                  },
+                  {
+                     "word": "peace",
+                     "confidence": 0.14
+                  },
+                  {
+                     "word": "eighties",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "feeds",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 388.95,
+               "end_time": 389.08,
+               "alternatives": [
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.97
+                  }
+               ]
+            },
+            {
+               "start_time": 389.08,
+               "end_time": 389.24,
+               "alternatives": [
+                  {
+                     "word": "of",
+                     "confidence": 0.59
+                  },
+                  {
+                     "word": "are",
+                     "confidence": 0.34
+                  },
+                  {
+                     "word": "or",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 389.24,
+               "end_time": 389.41,
+               "alternatives": [
+                  {
+                     "word": "run",
+                     "confidence": 0.65
+                  },
+                  {
+                     "word": "running",
+                     "confidence": 0.33
+                  }
+               ]
+            },
+            {
+               "start_time": 389.41,
+               "end_time": 389.61,
+               "alternatives": [
+                  {
+                     "word": "out",
+                     "confidence": 0.98
+                  }
+               ]
+            },
+            {
+               "start_time": 389.61,
+               "end_time": 389.71,
+               "alternatives": [
+                  {
+                     "word": "of",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 389.71,
+               "end_time": 390.09,
+               "alternatives": [
+                  {
+                     "word": "time",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 390.09,
+               "end_time": 390.35,
+               "alternatives": [
+                  {
+                     "word": "but",
+                     "confidence": 0.93
+                  },
+                  {
+                     "word": "by",
+                     "confidence": 0.04
+                  },
+                  {
+                     "word": "bought",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "via",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "about",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 390.74,
+               "end_time": 391.14,
+               "alternatives": [
+                  {
+                     "word": "%HESITATION",
+                     "confidence": 0.98
+                  }
+               ]
+            },
+            {
+               "start_time": 391.17,
+               "end_time": 391.52,
+               "alternatives": [
+                  {
+                     "word": "have",
+                     "confidence": 0.82
+                  },
+                  {
+                     "word": "haven't",
+                     "confidence": 0.03
+                  },
+                  {
+                     "word": "%HESITATION",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 391.52,
+               "end_time": 392.05,
+               "alternatives": [
+                  {
+                     "word": "written",
+                     "confidence": 0.38
+                  },
+                  {
+                     "word": "relatively",
+                     "confidence": 0.29
+                  },
+                  {
+                     "word": "coverage",
+                     "confidence": 0.09
+                  },
+                  {
+                     "word": "returned",
+                     "confidence": 0.07
+                  },
+                  {
+                     "word": "retained",
+                     "confidence": 0.05
+                  },
+                  {
+                     "word": "return",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "left",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "ten",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 392.05,
+               "end_time": 392.45,
+               "alternatives": [
+                  {
+                     "word": "large",
+                     "confidence": 0.66
+                  },
+                  {
+                     "word": "larger",
+                     "confidence": 0.24
+                  }
+               ]
+            },
+            {
+               "start_time": 392.45,
+               "end_time": 392.99,
+               "alternatives": [
+                  {
+                     "word": "class",
+                     "confidence": 0.96
+                  }
+               ]
+            },
+            {
+               "start_time": 393.02,
+               "end_time": 393.57,
+               "alternatives": [
+                  {
+                     "word": "members",
+                     "confidence": 0.74
+                  },
+                  {
+                     "word": "numbers",
+                     "confidence": 0.23
+                  },
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 393.6,
+               "end_time": 393.87,
+               "alternatives": [
+                  {
+                     "word": "in",
+                     "confidence": 0.51
+                  },
+                  {
+                     "word": "and",
+                     "confidence": 0.47
+                  },
+                  {
+                     "word": "can",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 394.35,
+               "end_time": 394.63,
+               "alternatives": [
+                  {
+                     "word": "and",
+                     "confidence": 0.76
+                  },
+                  {
+                     "word": "at",
+                     "confidence": 0.18
+                  },
+                  {
+                     "word": "an",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "N.",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 394.66,
+               "end_time": 394.76,
+               "alternatives": [
+                  {
+                     "word": "the",
+                     "confidence": 0.99
+                  }
+               ]
+            },
+            {
+               "start_time": 394.76,
+               "end_time": 395.12,
+               "alternatives": [
+                  {
+                     "word": "delivery",
+                     "confidence": 0.98
+                  }
+               ]
+            },
+            {
+               "start_time": 395.12,
+               "end_time": 395.39,
+               "alternatives": [
+                  {
+                     "word": "time",
+                     "confidence": 0.79
+                  },
+                  {
+                     "word": "times",
+                     "confidence": 0.19
+                  }
+               ]
+            },
+            {
+               "start_time": 395.39,
+               "end_time": 395.76,
+               "alternatives": [
+                  {
+                     "word": "six",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 395.76,
+               "end_time": 395.89,
+               "alternatives": [
+                  {
+                     "word": "to",
+                     "confidence": 0.98
+                  },
+                  {
+                     "word": "two",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 395.89,
+               "end_time": 396.14,
+               "alternatives": [
+                  {
+                     "word": "eight",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 396.14,
+               "end_time": 396.55,
+               "alternatives": [
+                  {
+                     "word": "PM",
+                     "confidence": 1.0
+                  }
+               ]
+            },
+            {
+               "start_time": 396.89,
+               "end_time": 397.1,
+               "alternatives": [
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.74
+                  }
+               ]
+            },
+            {
+               "start_time": 397.1,
+               "end_time": 397.32,
+               "alternatives": [
+                  {
+                     "word": "%HESITATION",
+                     "confidence": 0.71
+                  },
+                  {
+                     "word": "and",
+                     "confidence": 0.06
+                  },
+                  {
+                     "word": "Madison",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "at",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 397.32,
+               "end_time": 397.48,
+               "alternatives": [
+                  {
+                     "word": "some",
+                     "confidence": 0.55
+                  },
+                  {
+                     "word": "so",
+                     "confidence": 0.39
+                  },
+                  {
+                     "word": "on",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "seven",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 397.55,
+               "end_time": 398.08,
+               "alternatives": [
+                  {
+                     "word": "managing",
+                     "confidence": 0.49
+                  },
+                  {
+                     "word": "managers",
+                     "confidence": 0.41
+                  },
+                  {
+                     "word": "manages",
+                     "confidence": 0.04
+                  },
+                  {
+                     "word": "manager's",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 398.08,
+               "end_time": 398.6,
+               "alternatives": [
+                  {
+                     "word": "students",
+                     "confidence": 0.9
+                  }
+               ]
+            },
+            {
+               "start_time": 398.6,
+               "end_time": 398.74,
+               "alternatives": [
+                  {
+                     "word": "on",
+                     "confidence": 0.24
+                  },
+                  {
+                     "word": "are",
+                     "confidence": 0.21
+                  },
+                  {
+                     "word": "in",
+                     "confidence": 0.2
+                  },
+                  {
+                     "word": "or",
+                     "confidence": 0.14
+                  },
+                  {
+                     "word": "of",
+                     "confidence": 0.09
+                  },
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "and",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 398.74,
+               "end_time": 399.23,
+               "alternatives": [
+                  {
+                     "word": "clean",
+                     "confidence": 0.8
+                  },
+                  {
+                     "word": "cleaning",
+                     "confidence": 0.07
+                  },
+                  {
+                     "word": "the",
+                     "confidence": 0.06
+                  },
+                  {
+                     "word": "including",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "Cleveland",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "queen",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 399.23,
+               "end_time": 399.41,
+               "alternatives": [
+                  {
+                     "word": "and",
+                     "confidence": 0.66
+                  }
+               ]
+            },
+            {
+               "start_time": 399.41,
+               "end_time": 399.67,
+               "alternatives": [
+                  {
+                     "word": "<eps>",
+                     "confidence": 0.78
+                  },
+                  {
+                     "word": "energy",
+                     "confidence": 0.21
+                  }
+               ]
+            },
+            {
+               "start_time": 399.67,
+               "end_time": 400.33,
+               "alternatives": [
+                  {
+                     "word": "challenging",
+                     "confidence": 0.79
+                  },
+                  {
+                     "word": "challenges",
+                     "confidence": 0.15
+                  },
+                  {
+                     "word": "challenge",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 400.47,
+               "end_time": 400.74,
+               "alternatives": [
+                  {
+                     "word": "join",
+                     "confidence": 0.61
+                  },
+                  {
+                     "word": "during",
+                     "confidence": 0.24
+                  },
+                  {
+                     "word": "joined",
+                     "confidence": 0.05
+                  },
+                  {
+                     "word": "joiner",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "Joyner",
+                     "confidence": 0.02
+                  }
+               ]
+            },
+            {
+               "start_time": 400.74,
+               "end_time": 400.86,
+               "alternatives": [
+                  {
+                     "word": "the",
+                     "confidence": 0.75
+                  },
+                  {
+                     "word": "a",
+                     "confidence": 0.15
+                  },
+                  {
+                     "word": "our",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 400.89,
+               "end_time": 401.19,
+               "alternatives": [
+                  {
+                     "word": "time",
+                     "confidence": 0.9
+                  },
+                  {
+                     "word": "town",
+                     "confidence": 0.04
+                  },
+                  {
+                     "word": "top",
+                     "confidence": 0.01
+                  }
+               ]
+            },
+            {
+               "start_time": 401.2,
+               "end_time": 401.58,
+               "alternatives": [
+                  {
+                     "word": "where",
+                     "confidence": 0.93
+                  }
+               ]
+            }
+         ],
+         "keywords_result": {}
+      }
+   ]
+}

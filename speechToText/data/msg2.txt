@@ -1,0 +1,50 @@
+{
+   "result_index": 24,
+   "results": [
+      {
+         "final": true,
+         "alternatives": [
+            {
+               "transcript": "Gary ",
+               "confidence": 0.66,
+               "timestamps": [
+                  [
+                     "Gary",
+                     128.73,
+                     129.32
+                  ]
+               ]
+            }
+         ],
+         "word_alternatives": [
+            {
+               "start_time": 128.73,
+               "end_time": 129.32,
+               "alternatives": [
+                  {
+                     "word": "Gary",
+                     "confidence": 0.94
+                  },
+                  {
+                     "word": "gallery",
+                     "confidence": 0.02
+                  },
+                  {
+                     "word": "Gabby",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "galley",
+                     "confidence": 0.01
+                  },
+                  {
+                     "word": "Garry",
+                     "confidence": 0.01
+                  }
+               ]
+            }
+         ],
+         "keywords_result": {}
+      }
+   ]
+}
