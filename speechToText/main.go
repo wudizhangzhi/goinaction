@@ -1,5 +1,5 @@
-// 文件夹批量导入文件
-// 超过一定大小自动重新建立websocket并且断点续传
+// 文件夹批量导入文件(.mp3, .mpeg, .wav, .flac, or .opus only)
+// 超过一定大小自动重新建立websocket并且断点续传(最大104857600 byte limit)
 package main
 
 import (
@@ -7,24 +7,46 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/gorilla/websocket"
 )
 
+const (
+	bufSize  = 1024 * 6
+	maxBytes = 104857600
+)
+
 var (
 	// fileBinaryCh chan []byte
-	stopCh   chan interface{}
-	helloMsg string = `{"timestamps":true,"content-type":"audio/wav","interim_results":true,"keywords":["IBM","admired","AI","transformations","cognitive","Artificial Intelligence","data","predict","learn"],"keywords_threshold":0.01,"word_alternatives_threshold":0.01,"smart_formatting":true,"speaker_labels":false,"action":"start"}`
-	stopMsg  string = `{"action":"stop"}`
+	stopCh      chan interface{}
+	helloMsg    string   = `{"timestamps":true,"content-type":"audio/wav","interim_results":true,"keywords":["IBM","admired","AI","transformations","cognitive","Artificial Intelligence","data","predict","learn"],"keywords_threshold":0.01,"word_alternatives_threshold":0.01,"smart_formatting":true,"speaker_labels":false,"action":"start"}`
+	stopMsg     string   = `{"action":"stop"}`
+	suffixList  []string = []string{".mp3", ".mpeg", ".wav", ".flac", ".opus"}
+	fileList    []string
+	wsConn      *websocket.Conn
+	bytesReaded int32
 )
 
 type TokenResp struct {
 	AccessToken string `json:"accessToken"`
 	ServiceUrl  string `json:"serviceUrl"`
+}
+
+// 结尾包含
+func suffixContains(s []string, e string) bool {
+	for _, a := range s {
+		if strings.HasSuffix(e, a) {
+			return true
+		}
+	}
+	return false
 }
 
 func getAccessToken() (*TokenResp, error) {
@@ -38,11 +60,32 @@ func getAccessToken() (*TokenResp, error) {
 	return &tokenResp, err
 }
 
-func main() {
-	interrupt := make(chan os.Signal, 1)
-	done := make(chan interface{}, 1)
-	signal.Notify(interrupt, os.Interrupt)
+func getFileList(path string) []string {
+	fi, err := os.Stat(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	switch mode := fi.Mode(); {
+	case mode.IsDir():
+		//
+		err := filepath.Walk(path,
+			func(path string, info os.FileInfo, err error) error {
+				if info.Mode().IsRegular() && suffixContains(suffixList, path) {
+					fileList = append(fileList, path)
+				}
+				return nil
+			})
+		if err != nil {
+			panic(err)
+		}
+	case mode.IsRegular():
+		//
+		fileList = append(fileList, path)
+	}
+	return fileList
+}
 
+func RefreshConn() {
 	token, err := getAccessToken()
 	if err != nil {
 		fmt.Println(err)
@@ -52,17 +95,30 @@ func main() {
 
 	url := "wss://" + token.ServiceUrl[8:] + "/v1/recognize?model=en-US_BroadbandModel&access_token=" + token.AccessToken
 	fmt.Printf("连接： %v\n", url)
-	c, _, err := websocket.DefaultDialer.Dial(url, nil)
-	defer c.Close()
+	wsConn, _, err = websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(0)
+		panic(err)
 	}
+	bytesReaded = 0
+}
+
+func main() {
+	// load all audios
+	path := os.Args[1]
+	fileList = getFileList(path)
+	log.Printf("文件: %s\n", fileList)
+
+	interrupt := make(chan os.Signal, 1)
+	done := make(chan interface{}, 1)
+	signal.Notify(interrupt, os.Interrupt)
+
+	RefreshConn()
+	defer wsConn.Close()
 
 	// 接受消息
 	go func() {
 		for {
-			messageType, message, err := c.ReadMessage()
+			messageType, message, err := wsConn.ReadMessage()
 			if err != nil {
 				stopCh <- err
 				break
@@ -76,34 +132,44 @@ func main() {
 		}
 	}()
 	// 开始
-	c.WriteMessage(websocket.TextMessage, []byte(helloMsg))
+	wsConn.WriteMessage(websocket.TextMessage, []byte(helloMsg))
 
 	// 发送文件
 	go func() {
-		f, err := os.Open("./audios/test.wav")
-		if err != nil {
-			return
-		}
-		defer f.Close()
-		r := bufio.NewReader(f)
-		buf := make([]byte, 0, 4*1024)
-		for {
-			n, err := r.Read(buf[:cap(buf)])
-			buf = buf[:n]
-			if n == 0 {
-				if err == nil {
-					continue
-				}
-				if err == io.EOF {
-					break
-				}
+		for _, filepath := range fileList {
+			log.Printf("开始上传: %s\n", filepath)
+			f, err := os.Open(filepath)
+			if err != nil {
+				log.Fatal(err)
+				continue
 			}
-			fmt.Printf("发送: %d\n", n)
-			c.WriteMessage(websocket.BinaryMessage, buf)
-			time.Sleep(500 * time.Millisecond)
+			defer f.Close()
+			r := bufio.NewReader(f)
+			buf := make([]byte, 0, bufSize)
+			for {
+				if bytesReaded+bufSize >= maxBytes {
+					RefreshConn()
+				}
+				n, err := r.Read(buf[:cap(buf)])
+				buf = buf[:n]
+				if n == 0 {
+					if err == nil {
+						continue
+					}
+					if err == io.EOF {
+						break
+					}
+				}
+				bytesReaded += int32(n)
+				fmt.Printf("发送: %d\n", n)
+				wsConn.WriteMessage(websocket.BinaryMessage, buf)
+				time.Sleep(500 * time.Millisecond)
+			}
 		}
-		c.WriteMessage(websocket.TextMessage, []byte(stopMsg))
+
+		wsConn.WriteMessage(websocket.TextMessage, []byte(stopMsg))
 	}()
+
 	for {
 		select {
 		case <-interrupt:
