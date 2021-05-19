@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sort"
 	"strings"
 	"sync"
 	"syscall"
@@ -30,7 +31,7 @@ type Client struct {
 	Mut         sync.Mutex
 
 	FileResults []string
-	Results     []Result
+	Results     []Timestamp
 }
 
 func getAccessToken() (*TokenResp, error) {
@@ -169,7 +170,7 @@ func (c *Client) Start() {
 	c.StopCh = make(chan interface{})
 	c.InterruptCh = make(chan os.Signal, 1)
 	c.FileResults = make([]string, 10)
-	c.Results = make([]Result, 10)
+	c.Results = make([]Timestamp, 10)
 
 	signal.Notify(c.InterruptCh, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
@@ -183,7 +184,7 @@ func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 	// TODO
 	if rsp.ResultIndex != lastReultIndex {
 		c.FileResults = append(c.FileResults, rsp.Results[0].Alternatives[0].Transcript)
-		c.Results = append(c.Results, rsp.Results[0])
+		c.Results = append(c.Results, rsp.Results[0].Alternatives[0].Timestamps...)
 		lastReultIndex = rsp.ResultIndex
 		// f, err := os.OpenFile("output.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
 		// if err != nil {
@@ -191,7 +192,11 @@ func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 		// }
 		// defer f.Close()
 		// f.WriteString(" " + rsp.Results[0].Alternatives[0].Transcript)
-
+		sortedResult := ByTime(c.Results)
+		sort.Sort(sortedResult)
+		for _, i := range sortedResult {
+			fmt.Printf("%s ", i.Word)
+		}
 	}
 	// fmt.Println(rsp.Results[0].Alternatives[0].Transcript)
 	fmt.Println(strings.Join(c.FileResults, " "))
