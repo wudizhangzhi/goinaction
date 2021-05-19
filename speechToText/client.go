@@ -182,7 +182,6 @@ func (c *Client) Start() {
 func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 	// TODO
 	if rsp.ResultIndex != lastReultIndex {
-	if rsp.ResultIndex != lastReultIndex {
 		c.FileResults = append(c.FileResults, rsp.Results[0].Alternatives[0].Transcript)
 		c.Results = append(c.Results, rsp.Results[0])
 		lastReultIndex = rsp.ResultIndex
