@@ -7,7 +7,7 @@ import (
 
 // 静态值
 const (
-	BufSize  = 1024 * 6
+	BufSize  = 1024 * 16
 	MaxBytes = 104857600
 	TokenUrl = "https://speech-to-text-demo.ng.bluemix.net/api/v1/credentials"
 )

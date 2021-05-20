@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
@@ -19,13 +20,13 @@ import (
 )
 
 var lastReultIndex int8 = -1
-var currentFile string
 
 type Client struct {
 	WsConn      *websocket.Conn
 	ErrorCh     chan interface{}
 	StopCh      chan interface{}
 	InterruptCh chan os.Signal
+	FileBufCh   chan []byte
 	Filepath    string
 	BytesReaded int32
 	Mut         sync.Mutex
@@ -51,10 +52,10 @@ func (c *Client) RefreshConn() {
 		fmt.Println(err)
 		os.Exit(0)
 	}
-	fmt.Println(token)
+	// fmt.Println(token)
 
 	url := "wss://" + token.ServiceUrl[8:] + "/v1/recognize?model=en-US_BroadbandModel&access_token=" + token.AccessToken
-	log.Printf("创建连接： %v\n", url)
+	log.Println("创建连接")
 	wsConn, _, err := websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		panic(err)
@@ -64,7 +65,23 @@ func (c *Client) RefreshConn() {
 	c.BytesReaded = 0
 	c.Mut.Unlock()
 	//
-	c.WsConn.WriteMessage(websocket.TextMessage, []byte(HelloMsg))
+	c.hello()
+}
+
+func (c *Client) hello() {
+	data := map[string]interface{}{}
+	if err := json.Unmarshal([]byte(HelloMsg), &data); err != nil {
+		panic(err)
+	}
+	//
+	filetype := strings.ToLower(filepath.Ext(c.Filepath)[1:])
+	data["content-type"] = "audio/" + filetype
+	log.Printf("hello： %v", data)
+	helloByte, err := json.Marshal(data)
+	if err != nil {
+		panic(err)
+	}
+	c.WsConn.WriteMessage(websocket.TextMessage, helloByte)
 }
 
 func (c *Client) receive() {
@@ -109,7 +126,7 @@ func (c *Client) receive() {
 	}
 }
 
-func (c *Client) work() {
+func (c *Client) readfile() {
 	log.Printf("开始上传: %s\n", c.Filepath)
 	f, err := os.Open(c.Filepath)
 	if err != nil {
@@ -136,12 +153,36 @@ func (c *Client) work() {
 		}
 		c.BytesReaded += int32(n)
 		// log.Printf("发送: %d\n", n)
-		c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
+		// c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
+		c.FileBufCh <- buf
 		time.Sleep(SleepDuration)
 	}
 
 	c.WsConn.WriteMessage(websocket.TextMessage, []byte(StopMsg))
 	log.Println("上传完成")
+}
+
+func (c *Client) work() {
+	ticker := time.NewTicker(time.Second * 1)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			c.keepAlive()
+		case buf := <-c.FileBufCh:
+			// log.Printf("发送: %d kb", len(buf)/1024)
+			c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
+		case <-c.StopCh:
+			return
+		case <-c.InterruptCh:
+			return
+		}
+	}
+
+}
+
+func (c *Client) keepAlive() {
+	c.WsConn.WriteMessage(websocket.TextMessage, []byte("ping"))
 }
 
 func (c *Client) finalize() {
@@ -159,6 +200,7 @@ func (c *Client) finalize() {
 	close(c.StopCh)
 	close(c.ErrorCh)
 	close(c.InterruptCh)
+	close(c.FileBufCh)
 	if c.WsConn != nil {
 		c.WsConn.Close()
 	}
@@ -169,12 +211,14 @@ func (c *Client) Start() {
 	c.ErrorCh = make(chan interface{})
 	c.StopCh = make(chan interface{})
 	c.InterruptCh = make(chan os.Signal, 1)
+	c.FileBufCh = make(chan []byte)
 	c.FileResults = make([]string, 10)
 	c.Results = make([]Timestamp, 10)
 
 	signal.Notify(c.InterruptCh, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
 	go c.work()
+	go c.readfile()
 	go c.receive()
 	defer c.WsConn.Close()
 	c.finalize()
