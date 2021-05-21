@@ -22,17 +22,17 @@ var lastResultIndex int
 var errCount int
 
 type Client struct {
-	WsConn      *websocket.Conn
-	ErrorCh     chan interface{}
-	StopCh      chan interface{}
-	InterruptCh chan os.Signal
-	FileBufCh   chan []byte
-	Filepath    string
-	FileBytes   []byte
-	BytesReaded int32
-	Mut         sync.Mutex
+	WsConn       *websocket.Conn
+	ErrorCh      chan interface{}
+	StopCh       chan interface{}
+	InterruptCh  chan os.Signal
+	FileBufCh    chan []byte
+	Filepath     string
+	BytesReaded  int32
+	RefreshCount int
+	Mut          sync.Mutex
 
-	RespMap map[int]*MsgResponse
+	RespMap map[int]map[int]*MsgResponse
 }
 
 func getAccessToken() (*TokenResp, error) {
@@ -64,6 +64,7 @@ func (c *Client) RefreshConn() error {
 	c.closeWsConn()
 	c.WsConn = wsConn
 	c.BytesReaded = 0
+	c.RefreshCount++
 	c.Mut.Unlock()
 
 	c.hello()
@@ -193,11 +194,12 @@ OuterLoop:
 			errCount++
 		case <-c.StopCh:
 		case <-c.InterruptCh:
+			log.Println("手动退出")
 			break OuterLoop
 		}
 
 	}
-
+	log.Fatalf("超过错误次数: %d", MaxErrorCount)
 	close(c.StopCh)
 	close(c.ErrorCh)
 	close(c.InterruptCh)
@@ -215,7 +217,7 @@ func (c *Client) Start() error {
 	c.FileBufCh = make(chan []byte)
 	// c.FileResults = make([]string, 10)
 	// c.Results = make([]Timestamp, 10)
-	c.RespMap = make(map[int]*MsgResponse)
+	c.RespMap = make(map[int]map[int]*MsgResponse)
 
 	signal.Notify(c.InterruptCh, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
@@ -234,6 +236,7 @@ func (c *Client) closeWsConn() error {
 			log.Fatalf("关闭websocket失败: %v", err)
 			return err
 		}
+		time.Sleep(SleepDuration * 10)
 	}
 	return nil
 }
@@ -245,9 +248,12 @@ func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 			log.Fatal(err)
 		}
 	}
-	c.RespMap[rsp.ResultIndex] = rsp
+	c.RespMap[c.RefreshCount][rsp.ResultIndex] = rsp
 	for i := 0; i < len(c.RespMap); i++ {
-		fmt.Print(strings.Title(strings.TrimRight(c.RespMap[i].Results[0].Alternatives[0].Transcript, " ") + ". "))
+		for j := 0; j < len(c.RespMap[i]); j++ {
+			fmt.Print(strings.Title(strings.TrimRight(c.RespMap[i][j].Results[0].Alternatives[0].Transcript, " ") + ". "))
+		}
+
 	}
 	fmt.Printf("\n\n\n")
 }
