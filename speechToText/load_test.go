@@ -1,8 +1,13 @@
 package speechToText
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"os"
 	"path/filepath"
 	"testing"
 )
@@ -78,4 +83,66 @@ func TestLoadHelloMsg(t *testing.T) {
 	fmt.Println(helloMsgObj)
 	basename := "hello.blah"
 	fmt.Println(filepath.Ext(basename)[1:])
+}
+
+func TestChunkFile(t *testing.T) {
+	filepath := "F:/GoWorkplace/goinaction/speechToText/audios/test.wav"
+	f, err := os.Open(filepath)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer f.Close()
+	r := bufio.NewReader(f)
+	// buf := make([]byte, BufSize)
+	var count int8
+	bufArray := make([][]byte, 0, 2)
+	for count < 2 {
+		buf := make([]byte, BufSize)
+		// io.ReadFull(r, buf)
+		// n, err := f.Read(buf)
+		n, err := r.Read(buf[:cap(buf)])
+		buf = buf[:n]
+		bufArray = append(bufArray, buf)
+		if n == 0 {
+			if err != nil {
+				t.Error(err)
+			}
+			if err == io.EOF {
+				break
+			}
+		}
+		count++
+	}
+	for i, buf := range bufArray {
+		f, err := os.Create(fmt.Sprint(i) + ".txt")
+		if err != nil {
+			t.Error(err)
+		}
+		// f.Write(buf)
+		// hex_string_data := hex.EncodeToString(buf)
+		f.Write(buf)
+	}
+}
+
+func TestReadFull(t *testing.T) {
+	filepath := "F:/GoWorkplace/goinaction/speechToText/audios/test.wav"
+	f, err := os.Open(filepath)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer f.Close()
+	bytes, err := ioutil.ReadAll(f)
+	if err != nil {
+		t.Error(err)
+	}
+	for i := 0; i < 2; i++ {
+		b := bytes[i*BufSize : (i+1)*BufSize]
+		f, err := os.Create(fmt.Sprint(i) + ".txt")
+		if err != nil {
+			t.Error(err)
+		}
+		f.Write(b)
+	}
 }

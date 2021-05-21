@@ -1,16 +1,15 @@
 package speechToText
 
 import (
-	"bufio"
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
-	"sort"
 	"strings"
 	"sync"
 	"syscall"
@@ -19,7 +18,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var lastReultIndex int8 = -1
+var lastReultIndex int8
+var lastMsgResponse *MsgResponse
 
 type Client struct {
 	WsConn      *websocket.Conn
@@ -32,6 +32,7 @@ type Client struct {
 	Mut         sync.Mutex
 
 	FileResults []string
+	RespMap     map[int]*MsgResponse
 	Results     []Timestamp
 }
 
@@ -134,30 +135,60 @@ func (c *Client) readfile() {
 		return
 	}
 	defer f.Close()
-	r := bufio.NewReader(f)
-	buf := make([]byte, 0, BufSize)
-	for {
+	// r := bufio.NewReader(f)
+	// buf := make([]byte, 0, BufSize)
+	// for {
+	// 	if c.BytesReaded+BufSize >= MaxBytes {
+	// 		c.WsConn.Close()
+	// 		c.RefreshConn()
+	// 	}
+	// 	n, err := r.Read(buf[:cap(buf)])
+	// 	buf = buf[:n]
+	// 	if n == 0 {
+	// 		if err == nil {
+	// 			continue
+	// 		}
+	// 		if err == io.EOF {
+	// 			break
+	// 		}
+	// 	}
+	// 	c.BytesReaded += int32(n)
+	// 	// log.Printf("发送: %d\n", n)
+	// 	// c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
+	// 	c.FileBufCh <- buf
+	// 	time.Sleep(SleepDuration)
+	// }
+	allBytes, err := ioutil.ReadAll(f)
+	if err != nil {
+		panic(err)
+	}
+	total := 0
+	chunk := 0
+	// var buf []byte
+	var lastBuf []byte
+	for total < len(allBytes) {
+
+		// if (chunk+1)*BufSize > len(bytes) {
+		// 	buf = bytes[chunk*BufSize:]
+		// } else {
+		// 	buf = bytes[chunk*BufSize : (chunk+1)*BufSize]
+		// }
+		buf := allBytes[chunk*BufSize : (chunk+1)*BufSize]
+		if lastBuf != nil && bytes.Compare(lastBuf, buf) == 0 {
+			log.Println("一样！")
+		}
+		lastBuf = buf
+		// log.Printf("发送: %d kb\n", len(buf)/1024)
+		c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
+		c.BytesReaded += int32(len(buf))
 		if c.BytesReaded+BufSize >= MaxBytes {
 			c.WsConn.Close()
 			c.RefreshConn()
 		}
-		n, err := r.Read(buf[:cap(buf)])
-		buf = buf[:n]
-		if n == 0 {
-			if err == nil {
-				continue
-			}
-			if err == io.EOF {
-				break
-			}
-		}
-		c.BytesReaded += int32(n)
-		// log.Printf("发送: %d\n", n)
-		// c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
-		c.FileBufCh <- buf
+		chunk++
+		total += len(buf)
 		time.Sleep(SleepDuration)
 	}
-
 	c.WsConn.WriteMessage(websocket.TextMessage, []byte(StopMsg))
 	log.Println("上传完成")
 }
@@ -214,10 +245,11 @@ func (c *Client) Start() {
 	c.FileBufCh = make(chan []byte)
 	c.FileResults = make([]string, 10)
 	c.Results = make([]Timestamp, 10)
+	c.RespMap = make(map[int]*MsgResponse)
 
 	signal.Notify(c.InterruptCh, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
-	go c.work()
+	// go c.work()
 	go c.readfile()
 	go c.receive()
 	defer c.WsConn.Close()
@@ -226,24 +258,35 @@ func (c *Client) Start() {
 
 func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 	// TODO
-	if rsp.ResultIndex != lastReultIndex {
-		c.FileResults = append(c.FileResults, rsp.Results[0].Alternatives[0].Transcript)
-		c.Results = append(c.Results, rsp.Results[0].Alternatives[0].Timestamps...)
-		lastReultIndex = rsp.ResultIndex
-		// f, err := os.OpenFile("output.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-		// defer f.Close()
-		// f.WriteString(" " + rsp.Results[0].Alternatives[0].Transcript)
-		sortedResult := ByTime(c.Results)
-		sort.Sort(sortedResult)
-		for _, i := range sortedResult {
-			fmt.Printf("%s ", i.Word)
-		}
+	// if rsp.ResultIndex != lastReultIndex {
+	// 	if lastMsgResponse == nil {
+	// 		lastMsgResponse = rsp
+	// 	}
+	// c.FileResults = append(c.FileResults, lastMsgResponse.Results[0].Alternatives[0].Transcript)
+	// c.Results = append(c.Results, lastMsgResponse.Results[0].Alternatives[0].Timestamps...)
+	// lastReultIndex = rsp.ResultIndex
+	// f, err := os.OpenFile("output.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer f.Close()
+	// f.WriteString(" " + rsp.Results[0].Alternatives[0].Transcript)
+	// sortedResult := ByTime(c.Results)
+	// sort.Sort(sortedResult)
+	// for _, i := range sortedResult {
+	// 	fmt.Printf("%s ", i.Word)
+	// }
+	// fmt.Println(rsp.ResultIndex, lastReultIndex, rsp.Results[0].Alternatives[0].Transcript, c.FileResults)
+	// lastMsgResponse = rsp
+	// fmt.Println(c.FileResults)
+	// }
+	c.RespMap[rsp.ResultIndex] = rsp
+	for i := 0; i < len(c.RespMap); i++ {
+		fmt.Print(strings.TrimRight(c.RespMap[i].Results[0].Alternatives[0].Transcript, " ") + ". ")
 	}
-	// fmt.Println(rsp.Results[0].Alternatives[0].Transcript)
-	fmt.Println(strings.Join(c.FileResults, " "))
+	fmt.Println("")
+	// fmt.Println(rsp.ResultIndex, lastReultIndex, rsp.Results[0].Alternatives[0].Transcript, c.FileResults)
+	// fmt.Println(strings.Join(c.FileResults, " "))
 }
 
 func (c *Client) handleStateRsp(rsp *StateResponse) {

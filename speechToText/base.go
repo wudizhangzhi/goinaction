@@ -56,7 +56,7 @@ func (r ByTime) Swap(i, j int) { r[i], r[j] = r[j], r[i] }
 func (r ByTime) Less(i, j int) bool { return r[i].Start < r[j].Start }
 
 type MsgResponse struct {
-	ResultIndex int8     `json:"result_index"`
+	ResultIndex int      `json:"result_index"`
 	Results     []Result `json:"results"`
 }
 
