@@ -62,7 +62,7 @@ func AudioSampleRate(f *os.File) (int, error) {
 	return d.SampleRate(), err
 }
 
-func saveToFile(output string, m map[int]map[int]*MsgResponse) error {
+func saveToFile(output string, m map[int]*MsgResponse) error {
 	f, err := os.OpenFile(output+".txt", os.O_CREATE|os.O_RDWR, 0600)
 	if err != nil {
 		log.Fatal(err)
@@ -70,18 +70,16 @@ func saveToFile(output string, m map[int]map[int]*MsgResponse) error {
 	}
 	defer f.Close()
 	for i := 0; i < len(m); i++ {
-		for j := 0; j < len(m[i]); j++ {
-			sentance := strings.TrimRight(m[i][j].Results[0].Alternatives[0].Transcript, " ")
-			if len(sentance) == 0 {
-				continue
-			}
-			if !strings.HasSuffix(sentance, ".") {
-				sentance += ". "
-			}
-			sentance = strings.Title(sentance)
-			f.WriteString(sentance)
-			f.WriteString("\n")
+		sentance := strings.TrimRight(m[i].Results[0].Alternatives[0].Transcript, " ")
+		if len(sentance) == 0 {
+			continue
 		}
+		if !strings.HasSuffix(sentance, ".") {
+			sentance += ". "
+		}
+		sentance = strings.Title(sentance)
+		f.WriteString(sentance)
+		f.WriteString("\n")
 	}
 	return nil
 }
