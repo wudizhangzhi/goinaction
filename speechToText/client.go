@@ -150,7 +150,7 @@ func (c *Client) readfile() {
 		log.Fatal(err)
 		return
 	}
-	bufSize := sampleRate * 60
+	bufSize := sampleRate * BufSeconds
 	buf := make([]byte, 0, bufSize)
 	for {
 		if c.BytesReaded+int32(bufSize) >= MaxBytes {
