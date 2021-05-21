@@ -71,6 +71,9 @@ func saveToFile(output string, m map[int]*MsgResponse) error {
 	defer f.Close()
 	for i := 0; i < len(m); i++ {
 		sentance := strings.TrimRight(m[i].Results[0].Alternatives[0].Transcript, " ")
+		if len(sentance) == 0 {
+			continue
+		}
 		if !strings.HasSuffix(sentance, ".") {
 			sentance += ". "
 		}

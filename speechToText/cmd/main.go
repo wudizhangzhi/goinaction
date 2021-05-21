@@ -10,12 +10,21 @@ import (
 )
 
 func main() {
-	path := os.Args[1]
+	args := os.Args
+	var path string
+	if len(args) == 1 { // 默认当前目录
+		path = "."
+	} else {
+		path = os.Args[1]
+	}
 	filelist := stt.GetFileList(path)
 	defer func() {
 		err := recover()
 		log.Fatal(err)
 	}()
+	if len(filelist) == 0 {
+		log.Fatalf("没有满足后缀的文件, 允许的后缀有: %s", stt.SuffixList)
+	}
 	for _, filepath := range filelist {
 		client := stt.Client{
 			Filepath: filepath,

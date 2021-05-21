@@ -19,6 +19,7 @@ import (
 )
 
 var lastResultIndex int
+var errCount int
 
 type Client struct {
 	WsConn      *websocket.Conn
@@ -145,6 +146,10 @@ func (c *Client) readfile() {
 	defer f.Close()
 	r := bufio.NewReader(f)
 	sampleRate, err := AudioSampleRate(f)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 	bufSize := sampleRate * 60
 	buf := make([]byte, 0, bufSize)
 	for {
@@ -167,61 +172,8 @@ func (c *Client) readfile() {
 		// c.FileBufCh <- buf
 		time.Sleep(SleepDuration)
 	}
-	// allBytes, err := ioutil.ReadAll(f)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// 	return
-	// }
-	// total := 0
-	// chunk := 0
-	// // var buf []byte
-	// var lastBuf []byte
-	// for total < len(allBytes) {
-
-	// 	// if (chunk+1)*BufSize > len(bytes) {
-	// 	// 	buf = bytes[chunk*BufSize:]
-	// 	// } else {
-	// 	// 	buf = bytes[chunk*BufSize : (chunk+1)*BufSize]
-	// 	// }
-	// 	buf := allBytes[chunk*BufSize : (chunk+1)*BufSize]
-	// 	if lastBuf != nil && bytes.Compare(lastBuf, buf) == 0 {
-	// 		log.Println("一样！")
-	// 	}
-	// 	lastBuf = buf
-	// 	// log.Printf("发送: %d kb\n", len(buf)/1024)
-	// 	c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
-	// 	c.BytesReaded += int32(len(buf))
-	// 	if c.BytesReaded+BufSize >= MaxBytes {
-	// 		err := c.RefreshConn()
-	// 		if err != nil {
-	// 			break
-	// 		}
-	// 	}
-	// 	chunk++
-	// 	total += len(buf)
-	// 	time.Sleep(SleepDuration)
-	// }
 	c.WsConn.WriteMessage(websocket.TextMessage, []byte(StopMsg))
 	log.Println("上传完成")
-}
-
-func (c *Client) work() {
-	ticker := time.NewTicker(time.Second * 1)
-	defer ticker.Stop()
-	for {
-		select {
-		case <-ticker.C:
-			c.keepAlive()
-		case buf := <-c.FileBufCh:
-			// log.Printf("发送: %d kb", len(buf)/1024)
-			c.WsConn.WriteMessage(websocket.BinaryMessage, buf)
-		case <-c.StopCh:
-			return
-		case <-c.InterruptCh:
-			return
-		}
-	}
-
 }
 
 func (c *Client) keepAlive() {
@@ -233,11 +185,17 @@ func (c *Client) finalize() {
 		log.Println("结束!")
 	}()
 
-	select {
-	case err := <-c.ErrorCh:
-		log.Fatalf("服务器报错: %s", err)
-	case <-c.StopCh:
-	case <-c.InterruptCh:
+OuterLoop:
+	for errCount < MaxErrorCount {
+		select {
+		case err := <-c.ErrorCh:
+			log.Fatalf("服务器报错: %s", err)
+		case <-c.StopCh:
+		case <-c.InterruptCh:
+			break OuterLoop
+		default:
+			errCount++
+		}
 	}
 
 	close(c.StopCh)
@@ -281,42 +239,17 @@ func (c *Client) closeWsConn() error {
 }
 
 func (c *Client) handleMsgRsp(rsp *MsgResponse) {
-	// TODO
 	if rsp.ResultIndex != lastResultIndex {
 		filename := strings.Split(filepath.Base(c.Filepath), ".")[0]
 		if err := saveToFile(filename, c.RespMap); err != nil {
 			log.Fatal(err)
 		}
 	}
-	// if rsp.ResultIndex != lastReultIndex {
-	// 	if lastMsgResponse == nil {
-	// 		lastMsgResponse = rsp
-	// 	}
-	// c.FileResults = append(c.FileResults, lastMsgResponse.Results[0].Alternatives[0].Transcript)
-	// c.Results = append(c.Results, lastMsgResponse.Results[0].Alternatives[0].Timestamps...)
-	// lastReultIndex = rsp.ResultIndex
-	// f, err := os.OpenFile("output.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer f.Close()
-	// f.WriteString(" " + rsp.Results[0].Alternatives[0].Transcript)
-	// sortedResult := ByTime(c.Results)
-	// sort.Sort(sortedResult)
-	// for _, i := range sortedResult {
-	// 	fmt.Printf("%s ", i.Word)
-	// }
-	// fmt.Println(rsp.ResultIndex, lastReultIndex, rsp.Results[0].Alternatives[0].Transcript, c.FileResults)
-	// lastMsgResponse = rsp
-	// fmt.Println(c.FileResults)
-	// }
 	c.RespMap[rsp.ResultIndex] = rsp
 	for i := 0; i < len(c.RespMap); i++ {
 		fmt.Print(strings.Title(strings.TrimRight(c.RespMap[i].Results[0].Alternatives[0].Transcript, " ") + ". "))
 	}
-	fmt.Println("")
-	// fmt.Println(rsp.ResultIndex, lastReultIndex, rsp.Results[0].Alternatives[0].Transcript, c.FileResults)
-	// fmt.Println(strings.Join(c.FileResults, " "))
+	fmt.Printf("\n\n\n")
 }
 
 func (c *Client) handleStateRsp(rsp *StateResponse) {

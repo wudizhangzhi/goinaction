@@ -7,17 +7,19 @@ import (
 
 // 静态值
 const (
-	BufSize  = 1024 * 16
-	MaxBytes = 104857600
-	TokenUrl = "https://speech-to-text-demo.ng.bluemix.net/api/v1/credentials"
+	MaxErrorCount = 100
+	BufSize       = 1024 * 16
+	MaxBytes      = 104857600
+	TokenUrl      = "https://speech-to-text-demo.ng.bluemix.net/api/v1/credentials"
 )
 
 // 固定值
 var (
-	SleepDuration          = time.Microsecond * 200
-	HelloMsg      string   = `{"timestamps":true,"content-type":"audio/mp3","interim_results":true,"keywords":["IBM","admired","AI","transformations","cognitive","Artificial Intelligence","data","predict","learn"],"keywords_threshold":0.01,"word_alternatives_threshold":0.01,"smart_formatting":true,"speaker_labels":false,"action":"start"}`
-	StopMsg       string   = `{"action":"stop"}`
-	SuffixList    []string = []string{".mp3", ".mpeg", ".wav", ".flac", ".opus"}
+	SleepDuration        = time.Microsecond * 200
+	HelloMsg      string = `{"timestamps":true,"content-type":"audio/mp3","interim_results":true,"keywords":["IBM","admired","AI","transformations","cognitive","Artificial Intelligence","data","predict","learn"],"keywords_threshold":0.01,"word_alternatives_threshold":0.01,"smart_formatting":true,"speaker_labels":false,"action":"start"}`
+	StopMsg       string = `{"action":"stop"}`
+	// SuffixList    []string = []string{".mp3", ".mpeg", ".wav", ".flac", ".opus"}
+	SuffixList []string = []string{".mp3"} // 目前只支持mp3
 )
 
 type TokenResp struct {
