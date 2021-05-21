@@ -3,6 +3,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	stt "speechToText"
 )
@@ -10,11 +11,20 @@ import (
 func main() {
 	path := os.Args[1]
 	filelist := stt.GetFileList(path)
+	defer func() {
+		err := recover()
+		log.Fatal(err)
+	}()
 	for _, filepath := range filelist {
-		client := stt.Client{
-			Filepath: filepath,
-		}
-		client.Start()
+		_, err := stt.SplitMp3(filepath, 60)
+		log.Fatal(err)
+		// client := stt.Client{
+		// 	Filepath: filepath,
+		// }
+		// err := client.Start()
+		// if err != nil {
+		// 	log.Fatalf("执行文件：%s 报错: %v", filepath, err)
+		// }
 	}
 
 }
