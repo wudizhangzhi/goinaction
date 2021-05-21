@@ -190,12 +190,12 @@ OuterLoop:
 		select {
 		case err := <-c.ErrorCh:
 			log.Fatalf("服务器报错: %s", err)
+			errCount++
 		case <-c.StopCh:
 		case <-c.InterruptCh:
 			break OuterLoop
-		default:
-			errCount++
 		}
+
 	}
 
 	close(c.StopCh)
