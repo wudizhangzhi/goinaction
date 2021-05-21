@@ -18,6 +18,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var lastResultIndex int
+
 type Client struct {
 	WsConn      *websocket.Conn
 	ErrorCh     chan interface{}
@@ -25,6 +27,7 @@ type Client struct {
 	InterruptCh chan os.Signal
 	FileBufCh   chan []byte
 	Filepath    string
+	FileBytes   []byte
 	BytesReaded int32
 	Mut         sync.Mutex
 
@@ -92,6 +95,9 @@ OuterLoop:
 		c.Mut.Unlock()
 		// log.Printf("接收：%s\n", message)
 		if err != nil {
+			// if !websocket.IsCloseError(err) {
+			// 	continue
+			// }
 			log.Printf("接收数据报错, 退出: %s", err)
 			if c.ErrorCh != nil {
 				c.ErrorCh <- err
@@ -138,10 +144,11 @@ func (c *Client) readfile() {
 	}
 	defer f.Close()
 	r := bufio.NewReader(f)
-	buf := make([]byte, 0, BufSize)
+	sampleRate, err := AudioSampleRate(f)
+	bufSize := sampleRate * 60
+	buf := make([]byte, 0, bufSize)
 	for {
-		if c.BytesReaded+BufSize >= MaxBytes {
-			c.WsConn.Close()
+		if c.BytesReaded+int32(bufSize) >= MaxBytes {
 			c.RefreshConn()
 		}
 		n, err := r.Read(buf[:cap(buf)])
@@ -275,6 +282,12 @@ func (c *Client) closeWsConn() error {
 
 func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 	// TODO
+	if rsp.ResultIndex != lastResultIndex {
+		filename := strings.Split(filepath.Base(c.Filepath), ".")[0]
+		if err := saveToFile(filename, c.RespMap); err != nil {
+			log.Fatal(err)
+		}
+	}
 	// if rsp.ResultIndex != lastReultIndex {
 	// 	if lastMsgResponse == nil {
 	// 		lastMsgResponse = rsp
@@ -299,7 +312,7 @@ func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 	// }
 	c.RespMap[rsp.ResultIndex] = rsp
 	for i := 0; i < len(c.RespMap); i++ {
-		fmt.Print(strings.TrimRight(c.RespMap[i].Results[0].Alternatives[0].Transcript, " ") + ". ")
+		fmt.Print(strings.Title(strings.TrimRight(c.RespMap[i].Results[0].Alternatives[0].Transcript, " ") + ". "))
 	}
 	fmt.Println("")
 	// fmt.Println(rsp.ResultIndex, lastReultIndex, rsp.Results[0].Alternatives[0].Transcript, c.FileResults)

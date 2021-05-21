@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	stt "speechToText"
@@ -16,15 +17,15 @@ func main() {
 		log.Fatal(err)
 	}()
 	for _, filepath := range filelist {
-		_, err := stt.SplitMp3(filepath, 60)
-		log.Fatal(err)
-		// client := stt.Client{
-		// 	Filepath: filepath,
-		// }
-		// err := client.Start()
-		// if err != nil {
-		// 	log.Fatalf("执行文件：%s 报错: %v", filepath, err)
-		// }
-	}
+		client := stt.Client{
+			Filepath: filepath,
+		}
+		err := client.Start()
+		if err != nil {
+			log.Fatalf("执行文件：%s 报错: %v", filepath, err)
+		}
 
+	}
+	fmt.Println("Press the Enter Key to quit")
+	fmt.Scanln()
 }

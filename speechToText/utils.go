@@ -57,33 +57,26 @@ func byteOfSecond(sec int, freq int) int {
 	return sec * freq
 }
 
-func SplitMp3(filepath string, sec int) ([][]byte, error) {
-	results := make([][]byte, 0)
-	f, err := os.Open(filepath)
+func AudioSampleRate(f *os.File) (int, error) {
+	d, err := mp3.NewDecoder(f)
+	return d.SampleRate(), err
+}
+
+func saveToFile(output string, m map[int]*MsgResponse) error {
+	f, err := os.OpenFile(output+".txt", os.O_CREATE|os.O_RDWR, 0600)
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
+		return err
 	}
 	defer f.Close()
-	d, err := mp3.NewDecoder(f)
-	if err != nil {
-		return nil, err
-	}
-	log.Println("mp3 length: ", d.Length())
-	var readed int64 = 0
-	size := byteOfSecond(sec, d.SampleRate())
-	buf := make([]byte, size)
-	for readed < d.Length() {
-		n, err := d.Read(buf)
-		buf = buf[:n]
-		if err != nil {
-			return nil, err
+	for i := 0; i < len(m); i++ {
+		sentance := strings.TrimRight(m[i].Results[0].Alternatives[0].Transcript, " ")
+		if !strings.HasSuffix(sentance, ".") {
+			sentance += ". "
 		}
-		readed += int64(n)
-		results = append(results, buf)
+		sentance = strings.Title(sentance)
+		f.WriteString(sentance)
+		f.WriteString("\n")
 	}
-	// err = ioutil.WriteFile("output.mp3", buf, os.ModePerm)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	return results, nil
+	return nil
 }
