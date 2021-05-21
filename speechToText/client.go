@@ -198,7 +198,6 @@ OuterLoop:
 		}
 
 	}
-	log.Fatalf("超过错误次数: %d", MaxErrorCount)
 	close(c.StopCh)
 	close(c.ErrorCh)
 	close(c.InterruptCh)
@@ -230,6 +229,8 @@ func (c *Client) Start() error {
 
 func (c *Client) closeWsConn() error {
 	if c.WsConn != nil {
+		// 增加计数
+		c.ResultIdx++
 		err := c.WsConn.Close()
 		if err != nil && !websocket.IsCloseError(err) {
 			log.Fatalf("关闭websocket失败: %v", err)
