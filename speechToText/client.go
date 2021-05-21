@@ -230,7 +230,9 @@ func (c *Client) Start() error {
 func (c *Client) closeWsConn() error {
 	if c.WsConn != nil {
 		// 增加计数
+		c.Mut.Lock()
 		c.ResultIdx++
+		c.Mut.Unlock()
 		err := c.WsConn.Close()
 		if err != nil && !websocket.IsCloseError(err) {
 			log.Fatalf("关闭websocket失败: %v", err)
@@ -243,7 +245,9 @@ func (c *Client) closeWsConn() error {
 
 func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 	if rsp.ResultIndex != lastResultIndex {
+		c.Mut.Lock()
 		c.ResultIdx++
+		c.Mut.Unlock()
 		lastResultIndex = rsp.ResultIndex
 	}
 	c.RespMap[rsp.ResultIndex] = rsp
