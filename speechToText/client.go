@@ -250,7 +250,7 @@ func (c *Client) handleMsgRsp(rsp *MsgResponse) {
 		c.Mut.Unlock()
 		lastResultIndex = rsp.ResultIndex
 	}
-	c.RespMap[rsp.ResultIndex] = rsp
+	c.RespMap[c.ResultIdx] = rsp
 	filename := strings.Split(filepath.Base(c.Filepath), ".")[0]
 	if err := saveToFile(filename, c.RespMap); err != nil {
 		log.Fatal(err)
