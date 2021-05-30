@@ -25,5 +25,5 @@ func main() {
 	fmt.Printf("%+v\n", d)
 	fmt.Println("")
 	fmt.Printf("%s\n", d.Tables[0])
-	fmt.Printf("cols: %d, rows: %d", len(d.Tables[0].Rows[0].Cols), len(d.Tables[0].Rows))
+	fmt.Printf("tables: %d, cols: %d, rows: %d", len(d.Tables), len(d.Tables[0].Rows[0].Cols), len(d.Tables[0].Rows))
 }
