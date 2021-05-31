@@ -11,7 +11,8 @@ func parseParagraphVal(p string) string {
 	if start != -1 {
 		for i, c := range p {
 			if i > start {
-				if strings.ContainsAny(sympolUncheckOneline, string(c)) {
+				if strings.ContainsAny(sympolUncheckOneline, string(c)) ||
+					strings.ContainsAny(sympolCheckedOneline, string(c)) {
 					break
 				}
 				val += string(c)
@@ -20,4 +21,13 @@ func parseParagraphVal(p string) string {
 		return val
 	}
 	return p
+}
+
+func contains(s []string, t string) bool {
+	for _, i := range s {
+		if i == t {
+			return true
+		}
+	}
+	return false
 }

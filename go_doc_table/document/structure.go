@@ -58,11 +58,19 @@ func (r *R) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 					if attr.Name.Local == "char" {
 						// TODO 转化 ☑ ☒ ☐
 						// r.Text += attr.Value
-						switch attr.Value {
-						case "0052":
-							r.Text += sympolChecked
-						case "00A3":
+						switch {
+						// checkedd F050, F051, F054, F053, F052
+						case contains(wordUncheckSympolList, attr.Value):
 							r.Text += sympolUncheck
+						case contains(wordcheckedSympolList, attr.Value):
+							r.Text += sympolChecked
+							// case "0052":
+							// 	r.Text += sympolChecked
+							// // uncheck F02A 00A3
+							// case "F02A":
+							// 	r.Text += sympolUncheck
+							// case "00A3":
+							// 	r.Text += sympolUncheck
 						}
 					}
 				}
